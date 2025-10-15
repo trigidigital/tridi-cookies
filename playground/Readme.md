@@ -1,3 +1,3 @@
-# CookieConsent v3 Playground
+# Tridi Cookies Playground
 
-Available [here](https://playground.cookieconsent.orestbida.com).
+Available [here](https://trigidigital.github.io/tridi-cookies).

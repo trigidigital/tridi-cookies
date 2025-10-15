@@ -16,7 +16,7 @@ export async function fetchLatestRelease() {
         return latest;
     }
 
-    const res = await fetch('https://raw.githubusercontent.com/orestbida/cookieconsent/master/package.json');
+    const res = await fetch('https://raw.githubusercontent.com/trigidigital/tridi-cookies/main/package.json');
 
     /**
      * @type {import('../../package.json')}
@@ -48,9 +48,9 @@ export async function updateReleaseSpans() {
 * @param {string} release
 */
 function validRelease(release) {
-    const isV3 = /^(v3.|3.)/.test(release);
+    const isV1 = /^(v1.|1.)/.test(release);
 
-    if (!isV3)
+    if (!isV1)
         return false;
 
     /**

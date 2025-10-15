@@ -1,6 +1,6 @@
-export const title = 'CookieConsent v3 Playground';
-export const description = 'A playground/configurator for CookieConsent v3';
-export const repoUrl = 'https://github.com/orestbida/cookieconsent';
-export const docsUrl = 'https://cookieconsent.orestbida.com';
-export const playgroundUrl = 'https://playground.cookieconsent.orestbida.com';
-export const stackblitzUrl = 'https://stackblitz.com/@orestbida/collections/cookieconsent-v3';
+export const title = 'Tridi Cookies Playground';
+export const description = 'A playground/configurator for Tridi Cookies v1';
+export const repoUrl = 'https://github.com/trigidigital/tridi-cookies';
+export const docsUrl = 'https://github.com/trigidigital/tridi-cookies';
+export const playgroundUrl = 'https://trigidigital.github.io/tridi-cookies';
+export const stackblitzUrl = 'https://stackblitz.com/@trigidigital/collections/tridi-cookies-v1';

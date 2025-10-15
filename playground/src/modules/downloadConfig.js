@@ -11,7 +11,7 @@ const downloadBtn = getById('downloadConfigBtn');
 const configAsString = async ({minify = false} = {}) => {
     const latest = await fetchLatestRelease();
 
-    let scriptStr = `import 'https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@${latest}/dist/cookieconsent.umd.js';\n\n`;
+    let scriptStr = `import 'https://cdn.jsdelivr.net/gh/trigidigital/tridi-cookies@${latest}/dist/cookieconsent.umd.js';\n\n`;
 
     const state = getState();
     const config = getCurrentUserConfig(state);
@@ -43,5 +43,5 @@ const configAsString = async ({minify = false} = {}) => {
 addEvent(downloadBtn, 'click', async () => {
     const config = await configAsString();
     const blob = new Blob([config], {type: 'text/javascript;charset=utf-8'});
-    saveAs(blob, 'cookieconsent-config.js');
+    saveAs(blob, 'tridi-cookies-config.js');
 });
