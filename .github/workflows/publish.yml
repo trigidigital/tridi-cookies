@@ -1,94 +1,94 @@
 name: NPM Registry
 
 on:
-  release:
-    types: [published]
-  # Backup trigger untuk manual tag creation
-  push:
-    tags:
-      - 'v*'
+    release:
+        types: [published]
+    # Backup trigger untuk manual tag creation
+    push:
+        tags:
+            - "v*"
 
 jobs:
-  push-to-npm-registry-as-latest:
-    if: "!github.event.release.prerelease && !contains(github.ref, '-')"
-    runs-on: ubuntu-latest
+    push-to-npm-registry-as-latest:
+        if: "!github.event.release.prerelease && !contains(github.ref, '-')"
+        runs-on: ubuntu-latest
 
-    steps:
-    - uses: actions/checkout@v3
-    - uses: pnpm/action-setup@v3
-      with:
-        version: 8
+        steps:
+            - uses: actions/checkout@v3
+            - uses: pnpm/action-setup@v3
+              with:
+                  version: 9
 
-    - uses: actions/setup-node@v3
-      with:
-        node-version: "18"
-        cache: 'pnpm'
-    
-    - name: Check version alignment
-      run: |
-        PACKAGE_VERSION=$(node -p "require('./package.json').version")
-        GIT_VERSION=${GITHUB_REF#refs/tags/v}
-        echo "Package version: $PACKAGE_VERSION"
-        echo "Git tag version: $GIT_VERSION"
-        if [ "$PACKAGE_VERSION" != "$GIT_VERSION" ]; then
-          echo "❌ Version mismatch detected!"
-          echo "Package.json: $PACKAGE_VERSION"
-          echo "Git tag: $GIT_VERSION"
-          exit 1
-        else
-          echo "✅ Versions aligned - proceeding with publish"
-        fi
-    
-    - name: Install dependencies
-      run: pnpm install --frozen-lockfile
-    
-    - name: Build package
-      run: pnpm run build
-    
-    - uses: JS-DevTools/npm-publish@v2
-      with:
-        token: ${{ secrets.NPM_TOKEN }}
-        access: public
-        tag: latest
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: "18"
+                  cache: "pnpm"
 
-  push-to-npm-registry-as-next:
-    if: "github.event.release.prerelease || contains(github.ref, '-')"
-    runs-on: ubuntu-latest
+            - name: Check version alignment
+              run: |
+                  PACKAGE_VERSION=$(node -p "require('./package.json').version")
+                  GIT_VERSION=${GITHUB_REF#refs/tags/v}
+                  echo "Package version: $PACKAGE_VERSION"
+                  echo "Git tag version: $GIT_VERSION"
+                  if [ "$PACKAGE_VERSION" != "$GIT_VERSION" ]; then
+                    echo "❌ Version mismatch detected!"
+                    echo "Package.json: $PACKAGE_VERSION"
+                    echo "Git tag: $GIT_VERSION"
+                    exit 1
+                  else
+                    echo "✅ Versions aligned - proceeding with publish"
+                  fi
 
-    steps:
-    - uses: actions/checkout@v3
-    - uses: pnpm/action-setup@v3
-      with:
-        version: 8
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
 
-    - uses: actions/setup-node@v3
-      with:
-        node-version: "18"
-        cache: 'pnpm'
-    
-    - name: Check version alignment
-      run: |
-        PACKAGE_VERSION=$(node -p "require('./package.json').version")
-        GIT_VERSION=${GITHUB_REF#refs/tags/v}
-        echo "Package version: $PACKAGE_VERSION"
-        echo "Git tag version: $GIT_VERSION"
-        if [ "$PACKAGE_VERSION" != "$GIT_VERSION" ]; then
-          echo "❌ Version mismatch detected!"
-          echo "Package.json: $PACKAGE_VERSION"
-          echo "Git tag: $GIT_VERSION"
-          exit 1
-        else
-          echo "✅ Versions aligned - proceeding with publish"
-        fi
-    
-    - name: Install dependencies
-      run: pnpm install --frozen-lockfile
-    
-    - name: Build package
-      run: pnpm run build
-    
-    - uses: JS-DevTools/npm-publish@v2
-      with:
-        token: ${{ secrets.NPM_TOKEN }}
-        access: public
-        tag: next
+            - name: Build package
+              run: pnpm run build
+
+            - uses: JS-DevTools/npm-publish@v2
+              with:
+                  token: ${{ secrets.NPM_TOKEN }}
+                  access: public
+                  tag: latest
+
+    push-to-npm-registry-as-next:
+        if: "github.event.release.prerelease || contains(github.ref, '-')"
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v3
+            - uses: pnpm/action-setup@v3
+              with:
+                  version: 9
+
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: "18"
+                  cache: "pnpm"
+
+            - name: Check version alignment
+              run: |
+                  PACKAGE_VERSION=$(node -p "require('./package.json').version")
+                  GIT_VERSION=${GITHUB_REF#refs/tags/v}
+                  echo "Package version: $PACKAGE_VERSION"
+                  echo "Git tag version: $GIT_VERSION"
+                  if [ "$PACKAGE_VERSION" != "$GIT_VERSION" ]; then
+                    echo "❌ Version mismatch detected!"
+                    echo "Package.json: $PACKAGE_VERSION"
+                    echo "Git tag: $GIT_VERSION"
+                    exit 1
+                  else
+                    echo "✅ Versions aligned - proceeding with publish"
+                  fi
+
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
+
+            - name: Build package
+              run: pnpm run build
+
+            - uses: JS-DevTools/npm-publish@v2
+              with:
+                  token: ${{ secrets.NPM_TOKEN }}
+                  access: public
+                  tag: next

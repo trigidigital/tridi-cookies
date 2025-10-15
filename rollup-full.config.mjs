@@ -1,13 +1,16 @@
-import { defineConfig } from 'rollup';
+import { defineConfig } from "rollup";
 import terser from "@rollup/plugin-terser";
-import postcssCombineDuplicatedSelectors from 'postcss-combine-duplicated-selectors';
-import cssnanoPlugin from 'cssnano';
-import postcss from 'rollup-plugin-postcss';
-import eslint from '@rollup/plugin-eslint';
-import pkg from './package.json' with { type: "json"};
+import postcssCombineDuplicatedSelectors from "postcss-combine-duplicated-selectors";
+import cssnanoPlugin from "cssnano";
+import postcss from "rollup-plugin-postcss";
+import eslint from "@rollup/plugin-eslint";
+import pkg from "./package.json" with { type: "json" };
 
-const srcDir = './src';
-const distDir = './dist';
+// Set environment variable to suppress Sass deprecation warnings
+process.env.SASS_SILENCE_DEPRECATIONS = "legacy-js-api";
+
+const srcDir = "./src";
+const distDir = "./dist";
 const cssComponentsDir = `${distDir}/css-components`;
 const input = `${srcDir}/index.js`;
 const productionMode = !process.env.ROLLUP_WATCH;
@@ -21,31 +24,16 @@ export const banner = `/*!
 `;
 
 const cssComponents = [
-    [
-        'core/_base.scss',
-        'base.css'
-    ],
-    [
-        'core/components/_consent-modal.scss',
-        'consent-modal.css'
-    ],
-    [
-        'core/components/_preferences-modal.scss',
-        'preferences-modal.css'
-    ],
-    [
-        'abstracts/_dark-color-scheme.scss',
-        'dark-scheme.css'
-    ],
-    [
-        'abstracts/_light-color-scheme.scss',
-        'light-scheme.css'
-    ]
+    ["core/_base.scss", "base.css"],
+    ["core/components/_consent-modal.scss", "consent-modal.css"],
+    ["core/components/_preferences-modal.scss", "preferences-modal.css"],
+    ["abstracts/_dark-color-scheme.scss", "dark-scheme.css"],
+    ["abstracts/_light-color-scheme.scss", "light-scheme.css"],
 ];
 
-const cssComponentsRollup = cssComponents.map(component => {
+const cssComponentsRollup = cssComponents.map((component) => {
     const src = `${srcDir}/scss/${component[0]}`;
-    const dst = `${cssComponentsDir}/${component[1]}`
+    const dst = `${cssComponentsDir}/${component[1]}`;
 
     return {
         input: src,
@@ -56,94 +44,100 @@ const cssComponentsRollup = cssComponents.map(component => {
             extract: true,
             plugins: [
                 postcssCombineDuplicatedSelectors(),
-                productionMode && cssnanoPlugin({
-                    preset: ["default", {
-                        discardComments: {
-                            removeAll: true,
-                        }
-                    }]
-                })
-            ]
+                productionMode &&
+                    cssnanoPlugin({
+                        preset: [
+                            "default",
+                            {
+                                discardComments: {
+                                    removeAll: true,
+                                },
+                            },
+                        ],
+                    }),
+            ],
         }),
         onwarn(warning, warn) {
-            if(warning.code === 'FILE_NAME_CONFLICT') return;
-            if(warning.message?.includes('legacy-js-api')) return;
+            if (warning.code === "FILE_NAME_CONFLICT") return;
+            if (warning.message?.includes("legacy-js-api")) return;
             warn(warning);
-        }
-    }
-})
+        },
+    };
+});
 
 export const terserPlugin = terser({
     toplevel: true,
     format: {
         quote_style: 1,
-        comments: /^!/
+        comments: /^!/,
     },
     mangle: {
         properties: {
             regex: /^_/,
-            reserved: ['__esModule', '_ccRun'],
-            keep_quoted: true
-        }
+            reserved: ["__esModule", "_ccRun"],
+            keep_quoted: true,
+        },
     },
     compress: {
         passes: 3,
-        pure_funcs: [ 'debug', 'console.log']
-    }
+        pure_funcs: ["debug", "console.log"],
+    },
 });
 
-export default defineConfig(
-    [
-        {
-            input: input,
-            output: [
-                {
-                    file: pkg.main,
-                    format: 'umd',
-                    name: 'CookieConsent',
-                    banner: banner
-                },
-                {
-                    file: pkg.module,
-                    format: "esm",
-                    exports: "named",
-                    banner: banner
-                }
-            ],
-            plugins: [
-                eslint({
-                    fix: true,
-                    include: ['./src/**'],
-                    exclude: ['./src/scss/**']
-                }),
-                productionMode && terserPlugin,
-            ]
-        },
-        {
-            input: `${srcDir}/scss/index.scss`,
-            output: {
-                file: `${distDir}/cookieconsent.css`,
+export default defineConfig([
+    {
+        input: input,
+        output: [
+            {
+                file: pkg.main,
+                format: "umd",
+                name: "CookieConsent",
+                banner: banner,
             },
-            plugins: postcss({
-                extract: true,
-                plugins: [
-                    postcssCombineDuplicatedSelectors(),
-                    productionMode && cssnanoPlugin({
-                        preset: ["default", {
-                            discardComments: {
-                                removeAll: true,
-                            }
-                        }]
-                    })
-                ]
+            {
+                file: pkg.module,
+                format: "esm",
+                exports: "named",
+                banner: banner,
+            },
+        ],
+        plugins: [
+            eslint({
+                fix: true,
+                include: ["./src/**"],
+                exclude: ["./src/scss/**"],
             }),
-            // Suppress Sass legacy API deprecation warning
-            onwarn(warning, warn) {
-                if(warning.code === 'FILE_NAME_CONFLICT') return;
-                if(warning.message?.includes('legacy-js-api')) return;
-                warn(warning);
-            }
+            productionMode && terserPlugin,
+        ],
+    },
+    {
+        input: `${srcDir}/scss/index.scss`,
+        output: {
+            file: `${distDir}/cookieconsent.css`,
         },
-        ...cssComponentsRollup
-    ]
-);
+        plugins: postcss({
+            extract: true,
+            plugins: [
+                postcssCombineDuplicatedSelectors(),
+                productionMode &&
+                    cssnanoPlugin({
+                        preset: [
+                            "default",
+                            {
+                                discardComments: {
+                                    removeAll: true,
+                                },
+                            },
+                        ],
+                    }),
+            ],
+        }),
+        // Suppress Sass legacy API deprecation warning
+        onwarn(warning, warn) {
+            if (warning.code === "FILE_NAME_CONFLICT") return;
+            if (warning.message?.includes("legacy-js-api")) return;
+            warn(warning);
+        },
+    },
+    ...cssComponentsRollup,
+]);

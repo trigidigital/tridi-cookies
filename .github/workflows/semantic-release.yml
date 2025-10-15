@@ -1,48 +1,48 @@
 name: Semantic Release
 
 on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
+    push:
+        branches:
+            - main
+    workflow_dispatch:
 
 jobs:
-  release:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      issues: write
-      pull-requests: write
-      id-token: write # For provenance
+    release:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+            issues: write
+            pull-requests: write
+            id-token: write # For provenance
 
-    steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-        token: ${{ secrets.GITHUB_TOKEN }}
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+                  token: ${{ secrets.GITHUB_TOKEN }}
 
-    - uses: pnpm/action-setup@v3
-      with:
-        version: 8
+            - uses: pnpm/action-setup@v3
+              with:
+                  version: 9
 
-    - uses: actions/setup-node@v4
-      with:
-        node-version: "18"
-        cache: 'pnpm'
-        registry-url: 'https://registry.npmjs.org'
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: "18"
+                  cache: "pnpm"
+                  registry-url: "https://registry.npmjs.org"
 
-    - name: Install dependencies
-      run: pnpm install --frozen-lockfile
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
 
-    - name: Run tests
-      run: pnpm test
+            - name: Run tests
+              run: pnpm test
 
-    - name: Build package
-      run: pnpm run build
+            - name: Build package
+              run: pnpm run build
 
-    - name: Semantic Release
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        NPM_REGISTRY_URL: 'https://registry.npmjs.org'
-      run: npx semantic-release
+            - name: Semantic Release
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+                  NPM_REGISTRY_URL: "https://registry.npmjs.org"
+              run: npx semantic-release
