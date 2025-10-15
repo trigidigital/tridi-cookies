@@ -66,8 +66,8 @@ const cssComponentsRollup = cssComponents.map(component => {
             ]
         }),
         onwarn(warning, warn) {
-            if(warning.code === 'FILE_NAME_CONFLICT')
-                return;
+            if(warning.code === 'FILE_NAME_CONFLICT') return;
+            if(warning.message?.includes('legacy-js-api')) return;
             warn(warning);
         }
     }
@@ -137,8 +137,10 @@ export default defineConfig(
                     })
                 ]
             }),
+            // Suppress Sass legacy API deprecation warning
             onwarn(warning, warn) {
                 if(warning.code === 'FILE_NAME_CONFLICT') return;
+                if(warning.message?.includes('legacy-js-api')) return;
                 warn(warning);
             }
         },
