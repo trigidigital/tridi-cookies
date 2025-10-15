@@ -1,79 +1,89 @@
-# Welcome to CookieConsent contributing guide
+# Contributing to Tridi Cookies
 
-Thank you for investing your time in contributing to this project!
+## Development Setup
 
-## Documentation
+1. Clone the repository
+2. Install dependencies: `npm install`
+3. Run development server: `npm run dev`
+4. Run tests: `npm test`
+5. Build package: `npm run build`
 
-Documentation is available in [cookieconsent/docs](/docs/).
+## Commit Message Convention
 
-## Getting Started
+This project uses [Semantic Release](https://semantic-release.gitbook.io/) for automated versioning and publishing. Follow this commit message format:
 
-### Issues
+### Format
 
-If you encountered a problem, [search if an issue already exists](https://github.com/orestbida/cookieconsent/issues). If no related issues are found, you can [open a new issue via the appropriate issue template](https://github.com/orestbida/cookieconsent/issues/new/choose).
+```
+<type>(<scope>): <description>
 
-### Make Changes
+[optional body]
 
-0. #### Prerequisites
+[optional footer]
+```
 
-    1. You need to have [node.js LTS](https://nodejs.org/en/download/) installed to test your changes and create the bundled version of the source code.
+### Types
 
-    2. This project uses `pnpm` to manage the dependencies, which you can install via:
-        ```bash
-        npm i -g pnpm
-        ```
+- `feat`: New feature
+- `fix`: Bug fix
+- `docs`: Documentation changes
+- `style`: Code style changes (formatting, missing semi colons, etc.)
+- `refactor`: Code refactoring
+- `test`: Adding or updating tests
+- `chore`: Maintenance tasks
 
-    3. Follow the [Getting started with GitHub Desktop](https://docs.github.com/en/desktop/installing-and-configuring-github-desktop/overview/getting-started-with-github-desktop) guide.
+### Examples
 
-1. #### Make changes locally
+```
+feat: add dark mode support
+fix: resolve cookie consent modal positioning issue
+docs: update installation guide
+test: add unit tests for cookie validation
+chore: update dependencies
+```
 
-    1. [Fork and clone the repository](https://docs.github.com/en/desktop/contributing-and-collaborating-using-github-desktop/adding-and-cloning-repositories/cloning-and-forking-repositories-from-github-desktop).
+## Release Process
 
-    2. [Create a new working branch](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-and-deleting-branches-within-your-repository).
+### Automated Releases (Semantic Release)
 
-    3. Go to the root of the repo and install all dependencies via:
+When you push to the `main` branch:
 
-        ```
-        pnpm install
-        ```
+1. Semantic Release analyzes commit messages
+2. Determines the next version (patch/minor/major)
+3. Updates package.json version
+4. Generates changelog
+5. Creates GitHub release
+6. Publishes to NPM
 
-    4. Make the changes, to see your local changes in action, run:
+### Manual Releases (GitHub Releases)
 
-        ```
-        pnpm dev
-        ```
+You can still create releases manually through GitHub:
 
-        Note: If you're making changes to the documentation, use `pnpm docs:dev`.
+1. Create a new release with a tag (e.g., `v1.2.3`)
+2. Ensure `package.json` version matches the tag
+3. GitHub Actions will automatically publish to NPM
 
-    5. Once you've finished, generate the bundled version via:
+## Version Determination
 
-        ```
-        pnpm build
-        ```
-    6. Make sure tests are all green:
+- `fix` commits → Patch release (1.0.1)
+- `feat` commits → Minor release (1.1.0)
+- `feat!` or `BREAKING CHANGE` → Major release (2.0.0)
 
-        ```
-        pnpm test
-        ```
+## Testing
 
-3. Push the changes and [create a Pull Request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request).
+Before contributing:
 
-### Pull Request (PR)
+1. Run tests: `npm test`
+2. Check code style: `npm run lint` (if available)
+3. Build successfully: `npm run build`
+4. Test your changes manually
 
-1. When creating a new PR, explain briefly what it improves/fixes so that we can easily understand your changes.
-2. Don't forget to [link existing issues](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue), if you're solving one.
-3. Enable the [allow maintainer edits](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/allowing-changes-to-a-pull-request-branch-created-from-a-fork) checkbox so that the branch can be updated for a merge.
-4. We may ask questions or require changes before a PR is merged.
-5. If everything is clear and sorted out, your PR will be merged! Congratulations 🎉!
+## Pull Request Process
 
-#### Note: feature requests
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes with proper commit messages
+4. Test your changes
+5. Submit a pull request to `main`
 
-Before creating a feature requests, make sure you "are on the same page" as the maintainer, so that your efforts don't get rejected! A feature request might be rejected if there is no  related issue/discussion.
-
-## Thanks!
-
-Once your PR is merged, your contribution will be available in the next release!
-
-## Questions?
-
-If you have any questions, feel free to [open a new discussion](https://github.com/orestbida/cookieconsent/discussions/new/choose)!
+Thank you for contributing! 🍪

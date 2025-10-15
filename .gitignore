@@ -30,3 +30,21 @@ docs/.vitepress
 
 src_tmp
 playground/src/translations/translations.js
+# BMAD (local only)
+.bmad-core/
+.bmad-*/
+.claude/
+.gemini/
+AGENTS.md
+
+#docs
+docs/architecture/
+docs/brief/
+docs/brownfield-architecture/
+docs/prd/
+docs/qa/
+docs/stories
+docs/architecture.md
+docs/brownfield-architecture.md
+docs/gtag-integration.md
+docs/prd.md

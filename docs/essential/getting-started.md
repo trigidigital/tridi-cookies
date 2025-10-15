@@ -1,22 +1,22 @@
 # Getting Started
 
-This section will help you install CookieConsent in your app/website.
+This section will help you install Tridi Cookies in your app/website.
 
 
 ## Installation
 You can download/import the plugin using one of the following methods:
 <br>
 
-1. Install via [NPM](https://www.npmjs.com/package/vanilla-cookieconsent) or [Yarn](https://yarnpkg.com/package?name=vanilla-cookieconsent).
+1. Install via [NPM](https://www.npmjs.com/package/tridi-cookies) or [Yarn](https://yarnpkg.com/package?name=tridi-cookies).
 
     ::: code-group
 
     ```sh [npm]
-    npm i vanilla-cookieconsent@3.1.0
+    npm i tridi-cookies@1.0.0
     ```
 
     ```sh [pnpm]
-    pnpm add vanilla-cookieconsent@3.1.0
+    pnpm add tridi-cookies@1.0.0
     ```
 
     ```sh [yarn]
